@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mouseMoveSelect.js 实现鼠标拖动选择插件（极致小）</title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/1.10.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="./mouseMoveSelect.js"></script>
+    <style>
+        .well2 {
+            background-color: #fff;
+            border: 0px;
+            padding: 19px;
+            min-height: 20px;
+            color: slategrey;
+        }
+
+        .form-control {
+            width: 50%;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container" style="margin-bottom:200px;">
+    <div class="row">
+        <div class="jumbotron">
+            <h2><img src="./logo.png" alt="" width="70px">
+                @ Postbird</h2>
+            <p><a href="mailto:ptbird@yeah.net" class="btn btn-primary btn-sm">email：ptbird@yeah.net ></a></p>
+            <p><a href="http://www.ptbird.cn" class="btn btn-success btn-sm">website：www.ptbird.cn ></a></p>
+            <p>
+                <small>本页面采用 bootcss cdn服务的bootstrap&jquery，如页面显示不正常或jquery无反应，请确认网络连接正确。</small>
+            </p>
+            <p>
+                <small>POSTBIRD:There I am ,in the world more exciting!</small>
+            </p>
+            <p>
+                <small>注：为显示效果，将图片做成base64编码 附件包内容为加载图片，不加载base64!</small>
+            </p>
+        </div>
+        <div class="page-header">
+            <h1>js 实现鼠标拖动选择插件（极致小）
+                <small>mouseMoveSelect.js</small>
+            </h1>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="">Demo1 <font color="red"></font></h4>
+                </div>
+                <div class="panel-body">
+                    <div class="well2 col-md-12 photo-well-div">
+                        <form action="">
+                            <div class="col-md-6">
+                                <div class="form-group text-center col-md-3">
+                                    <div class="photo-item">
+                                        <img src="./images/1.jpg" width="100px" alt="" class="photo-img">
+                                        <br><input type="checkbox" GUID="ASD1-1111-1111-1111" class="photo-selector">
+                                    </div>
+                                </div>
+                                <div class="form-group text-center col-md-3">
+                                    <div class="photo-item">
+                                        <label for=""><img src="./images/2.jpg" width="100px" alt="">
+                                            <br><input type="checkbox" GUID="ASD1-2222-2222-2222"
+                                                       class="photo-selector"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group text-center col-md-3">
+                                    <div class="photo-item">
+                                        <label for=""><img src="./images/3.jpg" width="100px" alt="">
+                                            <br><input type="checkbox" GUID="ASD1-3333-3333-3333"
+                                                       class="photo-selector"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group text-center col-md-3">
+                                    <div class="photo-item">
+                                        <label for=""><img src="./images/4.jpg" width="100px" alt="">
+                                            <br><input type="checkbox" GUID="ASD1-4444-4444-4444"
+                                                       class="photo-selector"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="well2">
+                        注：1、默认的图片的HTML代码是：<br><br>
+
+                        <pre>
+<font color="red">photo 的容器 class 是 photo-item</font>
+<font color="red">input 的 class 是 photo-selector</font>
+
+ < div class="photo-item">
+     < img src="./images/1.jpg"width="100px" alt="" class="photo-img">
+     < br>< input type="checkbox"GUID="ASD1-2222-2222-2222" class="photo-selector">
+ < / div>
+                        </pre>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    当前已经选择：
+                    <strong><font color="red"><span class="select-length">0</span></font> 张图片</strong>
+                </div>
+                <div class="panel-footer">
+                    选择列表：
+                    <strong><font color="red"><span class="select-list"></span></font></strong>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-danger btn-sm" onclick="ClearAllSelect();" >清除选择</button>
+                    <button class="btn btn-success btn-sm" onclick="SelectAllSelect();">全部选择</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="page-header"><h2> 使用说明： </h2></div>
+            <h2>
+                <small>一、文件引入：<strong><span><</span><font color="#cd5c5c">script src="./mouseMoveSelect.js"><</font>script></strong>
+                </small>
+            </h2>
+            <h2>
+                <small>三、函数调用： 以第一个demo举例</small>
+            </h2>
+            <div class="well2">
+                <pre><h4>
+//  cSelectedPhotoList 全局变量函数用来存储选中的内容
+//  通过 MouseSelected()函数进行数据的绑定，每次鼠标经过动作或者是全选动作都通过这个函数进行选中的判断
+//      如果checked  = true  ，则加入cSelectedPhotoList中
+
+//  设置内容显示---使用两个全局变量的函数
+function setVarShow(){
+    $(".select-length").text(cSelectedPhotoList.length);
+    $(".select-list").text(cSelectedPhotoList);
+}
+                </h4></pre>
+            </div>
+            <div class="col-md-12">
+                <div class="page-header"><h2> 版权声明： </h2></div>
+                <h2>
+                    <small>一、开放使用，您可以在此基础上按需求调整或将函数粘贴出以减少get请求数量。</small>
+                </h2>
+                <h2>
+                    <small>二、您可以在此基础上二次包装并再次进行发布。</small>
+                </h2>
+                <h2>
+                    <small>三、License ： MIT</small>
+                </h2>
+            </div>
+            <div class="col-md-12">
+                <div class="page-header"><h2> JS源代码： </h2></div>
+               <pre>/** Created by postbird on 2016/6/18.  ...*/
+/**
+ *      @postbird
+ *      1、本插件采用js编写，可直接将函数复制到个人js文件，减少get请求数
+ *      2、author：powered by postbird
+ *      3、email： ptbird@yeah.net
+ *      4、site：http://www.ptbird.cn
+ *      5、license : MIT
+ * */
+/**
+ * 图片的html DOM如下所示 可以根据实际需求进行更改
+ *
+ *  < div class="photoitem">
+ *       < img src="./images/1.jpg"width="100px" alt="" class="photo-img">
+ *       < br>< input type="checkbox" class="photo-selector">
+ *  < /div>
+ */
+//-----------------------------------------------
+var bStartSelect = false;
+window.cSelectedPhotoList=[];//存储选中的值的列表
+document.onselectstart = function () {
+    return false;
+}
+//鼠标按下--------表示移动选择开始
+function MouseDown() {
+    bStartSelect = true;
+    console.log("start");
+}
+//鼠标放开--------表示移动选择结束
+function MouseUp() {
+    bStartSelect = false;
+    console.log("end");
+}
+//设置div的鼠标监听事件-------也可以设置整个body进行监听
+$(function () {
+    $(".photo-well-div").mousedown(function () {
+        MouseDown();
+    }).mouseup(function () {
+        MouseUp();
+    });
+})
+//设置经过图片的容器div 的时候鼠标move事件（photo-item是容器div）
+$(function () {
+    $(".photo-item").mousemove(function () {
+        if (bStartSelect) {
+            SelectMe($(this));
+        }
+    });
+})
+//设置鼠标经过图片的时候（以防万一，设置经过图片 photo-img 是图片的类）
+$(function () {
+    $(".photo-img").mousemove(function () {
+        if (bStartSelect) {
+            SelectMe($(this).parent());
+        }
+    });
+})
+//设置选中图片（也就是选中checbox）
+//找到没有选中的图片进行click操作
+function SelectMe(photoDiv) {
+    $(photoDiv).find(".photo-selector:not(:checked)").click();
+    MouseSelected();
+}
+//-----------------------------------------------
+//鼠标选中事件
+function MouseSelected() {
+    var tmpSelectedPhotoList=[];//每次选中都滞空后在进行选择
+    var count=0;
+    $(".photo-selector:checked").each(
+        function (index, item) {
+            tmpSelectedPhotoList[count]=$(item).attr("GUID");
+            count++;
+            //获取存储在checkbox 的attrGUID，或者获取attr的val值都可以
+        }
+    );
+    cSelectedPhotoList=tmpSelectedPhotoList;
+    setVarShow();//每次的选中都对DOM进行显示的操作
+}
+//清楚所有的选择
+function ClearAllSelect() {
+    $(".photo-selector").attr("checked", false);
+    cSelectedPhotoList=[];
+    setVarShow();
+}
+//全选功能
+function SelectAllSelect() {
+    ClearAllSelect();   //先清空在选中
+    $(".photo-selector").click();
+    MouseSelected();
+}
+//设置内容显示---使用两个全局变量的函数
+function setVarShow(){
+    $(".select-length").text(cSelectedPhotoList.length);
+    $(".select-list").text(cSelectedPhotoList);
+}
+               </pre>
+            </div>
+            <div class="col-md-12">
+                <div class="well text-center">
+                    Powered by postbird . &copy;2016
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+        });
+
+    </script>
+</body>
+</html>
